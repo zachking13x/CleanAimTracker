@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CleanAimTracker (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CleanAimTracker (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
