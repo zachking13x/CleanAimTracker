@@ -6,67 +6,133 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="#1E1E1E" Padding="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="#1E1E1E" Padding="20">
 
-        <!-- Title -->
-        <TextBlock Text="Clean Aim Tracker"
-                   FontSize="28"
-                   Foreground="White"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,10"/>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="LastDeltaText"
+                       Text="Last Δ: 0, 0"
+                        Foreground="White"
+                        FontSize="16"
+                        Margin="0,0,0,10"/>
 
-        <!-- Stats -->
-        <StackPanel Grid.Row="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Spacing="8">
 
-            <TextBlock x:Name="MovementText"
-                       Text="ΔX: 0   ΔY: 0"
-                       FontSize="20"
-                       Foreground="LightGray"
-                       HorizontalAlignment="Center"/>
+            <!-- Title -->
+            <TextBlock Text="Clean Aim Tracker"
+                       FontSize="32"
+                       Foreground="White"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
 
-            <TextBlock x:Name="DistanceText"
-                       Text="Total Distance: 0"
-                       FontSize="20"
-                       Foreground="LightGray"
-                       HorizontalAlignment="Center"/>
+            <!-- Stats Section -->
+            <StackPanel Grid.Row="1"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Spacing="10">
 
-            <TextBlock x:Name="TimeText"
-                       Text="Session Time: 00:00"
-                       FontSize="18"
-                       Foreground="Gray"
-                       HorizontalAlignment="Center"/>
-        </StackPanel>
+                <!-- Movement -->
+                <TextBlock x:Name="MovementText" Text="ΔX: 0   ΔY: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="DistanceText" Text="Total Distance: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="TimeText" Text="Session Time: 00:00" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="Cm360Text" Text="cm/360: --" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
 
-        <!-- Controls -->
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Spacing="10"
-                    Margin="0,20,0,0">
+                <!-- Velocity -->
+                <TextBlock x:Name="VelocityText" Text="Speed: 0 cm/s" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="PeakVelocityText" Text="Peak: 0 cm/s" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AverageVelocityText" Text="Average: 0 cm/s" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="CurrentVelocityText"
+                           Text="Current: 0 cm/s"
+                           Foreground="White"
+                           FontSize="16"
+                           Margin="0,5,0,0"/>
 
-            <Button x:Name="StartButton"
-                    Content="Start"
-                    Width="80"
-                    Click="StartButton_Click"/>
+                <!-- Flicks -->
+                <TextBlock x:Name="FlickCountText" Text="Flicks: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="SmallFlicksText" Text="Small Flicks: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="LargeFlicksText" Text="Large Flicks: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
 
-            <Button x:Name="StopButton"
-                    Content="Stop"
-                    Width="80"
-                    Click="StopButton_Click"/>
+                <!-- Jitter -->
+                <TextBlock x:Name="JitterText" Text="Jitter: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
 
-            <Button x:Name="ResetButton"
-                    Content="Reset"
-                    Width="80"
-                    Click="ResetButton_Click"/>
-        </StackPanel>
-    </Grid>
+                <!-- Smoothness -->
+                <TextBlock x:Name="SmoothnessText" Text="Smoothness: 100" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="CorrectionSharpnessText" Text="Correction Sharpness: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="MovementConsistencyText" Text="Movement Consistency: 100" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="OverallQualityText" Text="Overall Quality: 100" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Density / Idle -->
+                <TextBlock x:Name="MovementDensityText" Text="Density: 0 eps" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="IdleTimeText" Text="Idle: 0 s" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="IdleTimeSinceMoveText" Text="Idle Time: 0.0 s" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="IdlePercentageText" Text="Idle %: 0%" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Angles -->
+                <TextBlock x:Name="AngleText" Text="Angle: 0°" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AngleStabilityText" Text="Stability: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AngleChangeText" Text="Angle Change: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="RawAngleDeltaText" Text="Raw Delta: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="TrueAngleDeltaText" Text="True Delta: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="PreviousAngleText" Text="Prev Angle: 0°" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Distance Per Event -->
+                <TextBlock x:Name="DistancePerEventText" Text="Dist/Event: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AverageDistancePerEventText" Text="Avg Dist/Event: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="PeakDistancePerEventText" Text="Peak Dist/Event: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Velocity Change -->
+                <TextBlock x:Name="PeakVelocityChangeText" Text="Peak Vel Change: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Movement Count -->
+                <TextBlock x:Name="MovementCountPerSecondText" Text="MPS: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="RollingDensityText" Text="Rolling Density: 0 eps" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="IdleBurstText" Text="Idle Bursts: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Acceleration -->
+                <TextBlock x:Name="AccelerationText" Text="Accel: 0 cm/s²" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="PeakAccelerationText" Text="Peak Accel: 0 cm/s²" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AverageAccelerationText" Text="Avg Accel: 0 cm/s²" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
+
+                <!-- Sensitivity + DPI Inputs -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Spacing="10"
+                            Margin="0,20,0,0">
+
+                    <TextBox x:Name="SensitivityInput"
+                             PlaceholderText="Sensitivity"
+                             Width="120"
+                             Height="32"
+                             TextAlignment="Center"/>
+
+                    <TextBox x:Name="DpiInput"
+                             PlaceholderText="DPI"
+                             Width="120"
+                             Height="32"
+                             TextAlignment="Center"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="20"
+                        Margin="0,20,0,0">
+
+                <Button x:Name="StartButton" Content="Start Tracking" Width="150" Height="40" Click="StartButton_Click"/>
+                <Button x:Name="StopButton" Content="Stop Tracking" Width="150" Height="40" Click="StopButton_Click"/>
+                <Button x:Name="ResetButton" Content="Reset" Width="150" Height="40" Click="ResetButton_Click"/>
+                <Button x:Name="SummaryButton" Content="Summary" Width="150" Height="40" Click="OpenSummary_Click"/>
+
+            </StackPanel>
+             
+        </Grid>
+    </ScrollViewer>
 </Window>

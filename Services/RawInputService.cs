@@ -27,13 +27,19 @@ namespace CleanAimTracker.Services
             public IntPtr wParam;
         }
 
-        // ⭐ Correct RAWMOUSE layout (explicit offsets)
-        [StructLayout(LayoutKind.Explicit)]
+        // Match the native RAWMOUSE layout precisely. The native structure contains a union
+        // (ulButtons or { usButtonFlags, usButtonData }) so use Explicit layout with offsets.
+        [StructLayout(LayoutKind.Explicit, Size = 24)]
         private struct RAWMOUSE
         {
             [FieldOffset(0)] public ushort usFlags;
+            // 2 bytes padding here on native layout before the union
+
+            // Union: start at offset 4
+            [FieldOffset(4)] public uint ulButtons;
             [FieldOffset(4)] public ushort usButtonFlags;
             [FieldOffset(6)] public ushort usButtonData;
+
             [FieldOffset(8)] public uint ulRawButtons;
             [FieldOffset(12)] public int lLastX;
             [FieldOffset(16)] public int lLastY;
@@ -102,7 +108,7 @@ namespace CleanAimTracker.Services
                     if (header.dwType == RIM_TYPEMOUSE)
                     {
                         // ⭐ Try to detect DPI from HID feature report
-                        TryDetectDpi(header.hDevice);
+                       
 
                         IntPtr pMouse = IntPtr.Add(buffer, Marshal.SizeOf(typeof(RAWINPUTHEADER)));
                         RAWMOUSE mouse = Marshal.PtrToStructure<RAWMOUSE>(pMouse);
