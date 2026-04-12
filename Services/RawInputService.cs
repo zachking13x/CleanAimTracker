@@ -21,30 +21,34 @@ namespace CleanAimTracker.Services
         [StructLayout(LayoutKind.Sequential)]
         private struct RAWINPUTHEADER
         {
-            public int dwType;
-            public int dwSize;
+            public uint dwType;
+            public uint dwSize;
             public IntPtr hDevice;
             public IntPtr wParam;
         }
 
-        [StructLayout(LayoutKind.Sequential)]
+        // ⭐ Correct RAWMOUSE layout (explicit offsets)
+        [StructLayout(LayoutKind.Explicit)]
         private struct RAWMOUSE
         {
-            public ushort usFlags;
-            public uint ulButtons;
-            public ushort usButtonFlags;
-            public ushort usButtonData;
-            public uint ulRawButtons;
-            public int lLastX;
-            public int lLastY;
-            public uint ulExtraInformation;
+            [FieldOffset(0)] public ushort usFlags;
+            [FieldOffset(4)] public ushort usButtonFlags;
+            [FieldOffset(6)] public ushort usButtonData;
+            [FieldOffset(8)] public uint ulRawButtons;
+            [FieldOffset(12)] public int lLastX;
+            [FieldOffset(16)] public int lLastY;
+            [FieldOffset(20)] public uint ulExtraInformation;
         }
 
+        // Keep RAWINPUT struct definition if needed elsewhere, but avoid marshaling it
+        // directly because it contains a union. We'll marshal the header first and
+        // then the appropriate payload (mouse/keyboard/hid) at the correct offset.
         [StructLayout(LayoutKind.Sequential)]
         private struct RAWINPUT
         {
             public RAWINPUTHEADER header;
-            public RAWMOUSE mouse;
+            // payload is a union (variable type) - do not rely on this field for marshaling
+            // public RAWMOUSE mouse; // intentionally omitted from direct use
         }
 
         [DllImport("User32.dll", SetLastError = true)]
@@ -53,7 +57,7 @@ namespace CleanAimTracker.Services
             uint uiNumDevices,
             uint cbSize);
 
-        [DllImport("User32.dll")]
+        [DllImport("User32.dll", SetLastError = true)]
         private static extern uint GetRawInputData(
             IntPtr hRawInput,
             uint uiCommand,
@@ -92,12 +96,19 @@ namespace CleanAimTracker.Services
             {
                 if (GetRawInputData(lParam, RID_INPUT, buffer, ref dwSize, (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER))) == dwSize)
                 {
-                    RAWINPUT raw = Marshal.PtrToStructure<RAWINPUT>(buffer);
+                    // Marshal header first to avoid incorrect union marshaling
+                    RAWINPUTHEADER header = Marshal.PtrToStructure<RAWINPUTHEADER>(buffer);
 
-                    if (raw.header.dwType == RIM_TYPEMOUSE)
+                    if (header.dwType == RIM_TYPEMOUSE)
                     {
-                        int dx = raw.mouse.lLastX;
-                        int dy = raw.mouse.lLastY;
+                        // ⭐ Try to detect DPI from HID feature report
+                        TryDetectDpi(header.hDevice);
+
+                        IntPtr pMouse = IntPtr.Add(buffer, Marshal.SizeOf(typeof(RAWINPUTHEADER)));
+                        RAWMOUSE mouse = Marshal.PtrToStructure<RAWMOUSE>(pMouse);
+
+                        int dx = mouse.lLastX;
+                        int dy = mouse.lLastY;
 
                         MouseMoved?.Invoke(dx, dy);
                     }
@@ -110,4 +121,3 @@ namespace CleanAimTracker.Services
         }
     }
 }
-
