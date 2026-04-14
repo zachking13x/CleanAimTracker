@@ -25,6 +25,17 @@
 
         <!-- Card Grid -->
         <Grid Grid.Row="1" ColumnSpacing="20" RowSpacing="20">
+
+            <!-- 5 rows for the 5 card rows -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 2 columns -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -197,4 +208,3 @@
     </Grid>
 
 </Window>
-                   
