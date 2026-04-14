@@ -8,6 +8,14 @@ namespace CleanAimTracker.Services
         private const int RIDEV_INPUTSINK = 0x00000100;
         private const int RID_INPUT = 0x10000003;
         private const int RIM_TYPEMOUSE = 0;
+        // -----------------------------
+        // Micro-adjustment tracking
+        // -----------------------------
+        private int microMovementCount = 0;
+        private int microJitterCount = 0;
+        private double lastMicroAngle = 0;
+        private bool lastWasMicro = false;
+
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RAWINPUTDEVICE
@@ -116,7 +124,40 @@ namespace CleanAimTracker.Services
                         int dx = mouse.lLastX;
                         int dy = mouse.lLastY;
 
+                       
+
+                        // Calculate distance for micro-movement detection
+                        double distance = Math.Sqrt(dx * dx + dy * dy);
+
+                        // Detect micro-movements (tiny, precise adjustments)
+                        bool isMicro = distance < 1.5; // threshold for tiny movement
+
+                        if (isMicro)
+                        {
+                            microMovementCount++;
+
+                            // Detect jitter (rapid back-and-forth micro corrections)
+                            double angle = Math.Atan2(dy, dx);
+
+                            if (lastWasMicro)
+                            {
+                                double angleDiff = Math.Abs(angle - lastMicroAngle);
+
+                                // If angle flips direction sharply, it's jitter
+                                if (angleDiff > Math.PI / 2)
+                                    microJitterCount++;
+                            }
+
+                            lastMicroAngle = angle;
+                            lastWasMicro = true;
+                        }
+                        else
+                        {
+                            lastWasMicro = false;
+                        }
+
                         MouseMoved?.Invoke(dx, dy);
+
                     }
                 }
             }
