@@ -31,7 +31,14 @@ namespace CleanAimTracker.Services
                 return null;
 
             _currentSession.EndTime = DateTime.Now;
+
+            // ⭐ Build summary
             var summary = _currentSession.BuildSummary();
+
+            // ⭐ Open summary window
+            var win = new SummaryWindow(summary);
+            win.Activate();
+
             return _currentSession;
         }
 
@@ -143,9 +150,7 @@ namespace CleanAimTracker.Services
                         int dx = mouse.lLastX;
                         int dy = mouse.lLastY;
 
-                        // -----------------------------
-                        // ⭐ RECORD SAMPLE INTO SESSION
-                        // -----------------------------
+                        // ⭐ RECORD SAMPLE
                         if (_currentSession != null)
                         {
                             _currentSession.Samples.Add(new MouseSample
@@ -157,9 +162,7 @@ namespace CleanAimTracker.Services
                             });
                         }
 
-                        // -----------------------------
-                        // ⭐ RUN ANALYTICS ENGINE
-                        // -----------------------------
+                        // ⭐ ANALYTICS ENGINE
                         AnalyzeMovement(dx, dy);
 
                         // Fire event for UI
@@ -184,7 +187,7 @@ namespace CleanAimTracker.Services
             double distance = Math.Sqrt(dx * dx + dy * dy);
             double angle = Math.Atan2(dy, dx);
 
-            // Micro-adjustment detection (tiny movements)
+            // Micro-adjustment detection
             if (distance < 1.5)
             {
                 _currentSession.MicroAdjustments.Add(new MicroAdjustmentEvent
@@ -194,7 +197,7 @@ namespace CleanAimTracker.Services
                 });
             }
 
-            // Overshoot detection (simple version)
+            // Overshoot detection
             if (distance > 20)
             {
                 _currentSession.Overshoots.Add(new OvershootEvent
@@ -204,7 +207,7 @@ namespace CleanAimTracker.Services
                 });
             }
 
-            // Undershoot detection (simple version)
+            // Undershoot detection
             if (distance > 5 && distance <= 20)
             {
                 _currentSession.Undershoots.Add(new UndershootEvent
@@ -214,7 +217,7 @@ namespace CleanAimTracker.Services
                 });
             }
 
-            // Flick detection (simple version)
+            // Flick detection
             if (distance > 30)
             {
                 _currentSession.Flicks.Add(new FlickEvent
@@ -227,4 +230,4 @@ namespace CleanAimTracker.Services
         }
     }
 }
-
+ 
