@@ -108,7 +108,7 @@ namespace CleanAimTracker.Services
         // -----------------------------
         // Register Raw Input
         // -----------------------------
-        public void Register(nint hwnd)
+        public void Register(IntPtr hwnd)
         {
             RAWINPUTDEVICE[] rid =
             {
@@ -117,7 +117,7 @@ namespace CleanAimTracker.Services
                     usUsagePage = 0x01,
                     usUsage = 0x02,
                     dwFlags = RIDEV_INPUTSINK,
-                    hwndTarget = (IntPtr)hwnd
+                    hwndTarget = hwnd
                 }
             };
 

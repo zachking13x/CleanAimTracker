@@ -9,7 +9,12 @@
     Title="Session History">
 
     <Grid Padding="20">
-        <StackPanel Spacing="12">
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,0,12"/>
+                </Style>
+            </StackPanel.Resources>
 
             <TextBlock Text="Session History"
                        FontSize="28"
@@ -19,28 +24,32 @@
             <ListView x:Name="SessionsList"
                       Height="350"
                       SelectionMode="Single"
-                      IsItemClickEnabled="True"
-                      ItemClick="SessionsList_ItemClick">
-                        
+                      SelectionChanged="SessionsList_SelectionChanged">
+                         
 
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SessionSummary">
-                        <StackPanel Orientation="Horizontal" Spacing="16">
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="0,0,16,0"/>
+                                </Style>
+                            </StackPanel.Resources>
 
                             <!-- Date -->
-                            <TextBlock Text="{x:Bind SessionEnd}"
+                            <TextBlock Text="{Binding SessionEnd}"
                                        Width="200"/>
 
                             <!-- Duration -->
-                            <TextBlock Text="{x:Bind Duration}"
+                            <TextBlock Text="{Binding Duration}"
                                        Width="120"/>
 
                             <!-- Samples -->
-                            <TextBlock Text="{x:Bind TotalSamples}"
+                            <TextBlock Text="{Binding TotalSamples}"
                                        Width="100"/>
 
                             <!-- Flicks -->
-                            <TextBlock Text="{x:Bind FlickCount}"
+                            <TextBlock Text="{Binding FlickCount}"
                                        Width="80"/>
 
                         </StackPanel>

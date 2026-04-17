@@ -15,13 +15,12 @@ namespace CleanAimTracker
         }
 
         // This method is called when the user clicks a session in the ListView
-        private void SessionsList_ItemClick(object sender, ItemClickEventArgs e)
+        private void SessionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.ClickedItem is Models.SessionSummary session)
+            if (SessionsList.SelectedItem is Models.SessionSummary session)
             {
                 var detailWindow = new SessionDetailWindow(session);
                 detailWindow.Activate();
-
             }
         }
     }

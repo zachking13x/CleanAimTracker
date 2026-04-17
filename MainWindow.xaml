@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Background="#1E1E1E" Padding="20">
+        <Grid Background="#1E1E1E" Margin="20">
 
             
             <Grid.RowDefinitions>
@@ -33,8 +33,13 @@
             <!-- Stats Section -->
             <StackPanel Grid.Row="1"
                         VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Spacing="10">
+                        HorizontalAlignment="Center">
+
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="0,0,0,10" />
+                    </Style>
+                </StackPanel.Resources>
 
                 <!-- Movement -->
                 <TextBlock x:Name="MovementText" Text="ΔX: 0   ΔY: 0" FontSize="20" Foreground="LightGray" HorizontalAlignment="Center"/>
@@ -101,20 +106,22 @@
                 <!-- Sensitivity + DPI Inputs -->
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
-                            Spacing="10"
                             Margin="0,20,0,0">
 
                     <TextBox x:Name="SensitivityInput"
-                             PlaceholderText="Sensitivity"
                              Width="120"
                              Height="32"
-                             TextAlignment="Center"/>
+                             TextAlignment="Center"
+                             Margin="0,0,10,0"
+                             ToolTip="Sensitivity"
+                             Text=""/>
 
                     <TextBox x:Name="DpiInput"
-                             PlaceholderText="DPI"
                              Width="120"
                              Height="32"
-                             TextAlignment="Center"/>
+                             TextAlignment="Center"
+                             ToolTip="DPI"
+                             Text=""/>
                 </StackPanel>
 
             </StackPanel>
@@ -123,13 +130,12 @@
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
-                        Spacing="20"
                         Margin="0,20,0,0">
 
-                <Button x:Name="StartButton" Content="Start Tracking" Width="150" Height="40" Click="StartButton_Click"/>
-                <Button x:Name="StopButton" Content="Stop Tracking" Width="150" Height="40" Click="StopButton_Click"/>
-                <Button x:Name="ResetButton" Content="Reset" Width="150" Height="40" Click="ResetButton_Click"/>
-                <Button x:Name="SummaryButton" Content="Summary" Width="150" Height="40" Click="OpenSummary_Click"/>
+                <Button x:Name="StartButton" Content="Start Tracking" Width="150" Height="40" Click="StartButton_Click" Margin="0,0,20,0"/>
+                <Button x:Name="StopButton" Content="Stop Tracking" Width="150" Height="40" Click="StopButton_Click" Margin="0,0,20,0"/>
+                <Button x:Name="ResetButton" Content="Reset" Width="150" Height="40" Click="ResetButton_Click" Margin="0,0,20,0"/>
+                <Button x:Name="SummaryButton" Content="Summary" Width="150" Height="40" Click="OpenSummary_Click" Margin="0,0,20,0"/>
 
                 <Button Content="Session History"
                         Width="150"

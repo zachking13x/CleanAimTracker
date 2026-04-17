@@ -1,4 +1,3 @@
-using Microsoft.UI.Xaml;
 using System.Windows;
 
 namespace CleanAimTracker
