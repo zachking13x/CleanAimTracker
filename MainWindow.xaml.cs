@@ -561,6 +561,12 @@ namespace CleanAimTracker
                 AverageVelocityText.Text = $"Average: {_averageVelocity:F2} cm/s";
             }
         }
+        private void OpenSessionHistory_Click(object sender, RoutedEventArgs e)
+        {
+            var historyWindow = new SessionHistoryWindow();
+            historyWindow.Activate();
+        }
+
 
         // -----------------------------
         // Sensitivity helper

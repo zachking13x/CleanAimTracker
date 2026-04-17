@@ -131,6 +131,11 @@
                 <Button x:Name="ResetButton" Content="Reset" Width="150" Height="40" Click="ResetButton_Click"/>
                 <Button x:Name="SummaryButton" Content="Summary" Width="150" Height="40" Click="OpenSummary_Click"/>
 
+                <Button Content="Session History"
+                        Width="150"
+                        Height="40"
+                        Click="OpenSessionHistory_Click"/>
+
             </StackPanel>
              
         </Grid>
