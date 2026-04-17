@@ -1,9 +1,9 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace CleanAimTracker
 {
-    public sealed partial class SessionHistoryWindow : Window
+    public partial class SessionHistoryWindow : Window
     {
         public SessionHistoryWindow()
         {
@@ -14,13 +14,13 @@ namespace CleanAimTracker
             SessionsList.ItemsSource = sessions;
         }
 
-        // This method is called when the user clicks a session in the ListView
+        // Called when the user selects a session in the ListView
         private void SessionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SessionsList.SelectedItem is Models.SessionSummary session)
             {
                 var detailWindow = new SessionDetailWindow(session);
-                detailWindow.Activate();
+                detailWindow.Show();   // WPF uses Show(), not Activate()
             }
         }
     }
